@@ -1,54 +1,52 @@
 # YourMakro
 
-YourMakro ist ein leistungsstarkes, benutzerfreundliches Makro-Tool, das es ermöglicht, Mauspositionen aufzuzeichnen und automatisch auszuführen. Die Positionen werden in einer **MongoDB-Cloud-Datenbank** gespeichert, sodass sie jederzeit abgerufen und wiederverwendet werden können.
+YourMakro ist ein leistungsstarkes Tool zur automatisierten Maussteuerung mit Cloud-Speicherung. Es kombiniert eine moderne Benutzeroberfläche mit effizienter Steuerung für wiederholbare Klickabläufe.
 
-## 🚀 Funktionen
-- **Mauspositionen aufzeichnen** und speichern
-- **Automatisches Klicken** an gespeicherten Positionen
-- **Benutzerverwaltung** zur Speicherung individueller Makros
-- **GUI mit CustomTkinter** für einfache Bedienung
-- **ESC-Taste als Notfall-Stop**
+---
 
-## 🛠️ Technologien
-- **Python** (Hauptsprache)
-- **PyAutoGUI** (Automatisierung)
-- **Pynput** (Maus-Listener)
-- **Keyboard** (Hotkey-Erkennung)
-- **MongoDB Atlas** (Cloud-Datenbank)
-- **Tkinter & CustomTkinter** (GUI)
-
-## 📦 Installation
-### Voraussetzungen
-- Python 3.x installiert
-- Abhängigkeiten mit folgendem Befehl installieren:
+## Installation
+**Voraussetzungen:**
+- Python 3.x
+- Abhängigkeiten installieren:
   ```sh
   pip install pyautogui keyboard pymongo pynput customtkinter
   ```
 
-## 🚀 Nutzung
-1. **Starte die Anwendung:**
+---
+
+## Nutzung
+1. **Starten:**
    ```sh
    python yourmakro.py
    ```
-2. **Wähle eine der Optionen:**
-   - Positionen aufzeichnen
-   - Gespeicherte Positionen laden
-   - Automatisches Klicken starten
-3. **Beende das Skript jederzeit mit `ESC`.**
+2. **Klickpositionen aufzeichnen oder laden**
+3. **Automatische Klicks ausführen**
+4. **Mit ESC stoppen**
 
-## 🖥️ GUI-Beschreibung
-- **Username eingeben** → Um deine Positionen zu speichern
-- **"Record New Positions"** → Aufzeichnen neuer Positionen
-- **"Load Saved Positions"** → Geladene Positionen anzeigen
-- **"Start Clicking"** → Automatische Klick-Sequenz starten
-- **"Stop"** → Vorgang jederzeit stoppen
+---
 
-## 📸 Screenshots
-*(Hier können Screenshots der Anwendung hinzugefügt werden)*
+## Technologien
+✔ **Python** – Hauptsprache für Automatisierung  
+✔ **MongoDB Atlas** – Cloud-Datenbank zur Speicherung  
+✔ **CustomTkinter** – Stilvolle, moderne Benutzeroberfläche  
+✔ **PyAutoGUI & Pynput** – Maussteuerung und Eingaben  
 
-## 📜 Lizenz
-Dieses Projekt steht unter der MIT-Lizenz.
+---
 
-## 👤 Autor
-Entwickelt von **Elias Spycher**. Bei Fragen oder Anregungen gerne kontaktieren! 🚀
+## Benutzeroberfläche
+Ein modernes, übersichtliches Design bietet eine intuitive Steuerung. 
+- **Live-Positionsanzeige**
+- **Benutzerverwaltung für gespeicherte Klickmuster**
+- **Nahtlose Integration mit der Cloud**
+
+---
+
+## Lizenz
+YourMakro steht unter der **MIT-Lizenz** und ist frei nutzbar.
+
+---
+
+## Autor
+**Elias Spycher**  
+Für Anfragen oder Verbesserungen gerne melden!
 
