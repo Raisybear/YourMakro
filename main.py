@@ -7,29 +7,54 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import threading
 import customtkinter as ctk
+import hashlib
 
 # Verbindung zu MongoDB Atlas
 MONGO_URI = "mongodb+srv://spycherelias7:ms23fzCUupdwjTeB@mousepositions.jugnj14.mongodb.net/?retryWrites=true&w=majority&appName=mousePositions"
 client = MongoClient(MONGO_URI)
 db = client["mouse_clicker"]
-collection = db["mousePositions"]
+positions_collection = db["mousePositions"]  # Sammlung für Positionen
+users_collection = db["users"]  # Neue Sammlung für Benutzer
 
 positions = []
+
+
+def hash_password(password):
+    """Hasht ein Passwort mit SHA-256."""
+    return hashlib.sha256(password.encode('utf-8')).hexdigest()
+
+
+def create_user(username, password):
+    """Erstellt einen neuen Benutzer in der Datenbank."""
+    hashed_password = hash_password(password)
+    if users_collection.find_one({"username": username}):
+        return False, "Benutzername bereits vorhanden."
+    users_collection.insert_one({"username": username, "password": hashed_password})
+    return True, "Benutzer erfolgreich erstellt."
+
+
+def verify_password(username, password):
+    """Überprüft das Passwort eines Benutzers."""
+    user = users_collection.find_one({"username": username})
+    if user:
+        hashed_password = user["password"]
+        if hash_password(password) == hashed_password:
+            return True
+    return False
 
 
 def save_positions(username):
     """Speichert Positionen in MongoDB unter dem Benutzernamen."""
     if positions:
         # Speichern unter dem Benutzernamen
-        collection.insert_one({"username": username, "positions": positions})
+        positions_collection.insert_one({"username": username, "positions": positions})
         print(f"Positionen für {username} wurden in der Datenbank gespeichert!")
 
 
 def load_positions(username):
     """Lädt die zuletzt gespeicherten Positionen eines Benutzers aus MongoDB."""
     global positions
-    last_entry = collection.find_one({"username": username},
-                                     sort=[("_id", -1)])  # Letzter gespeicherter Eintrag des Benutzers
+    last_entry = positions_collection.find_one({"username": username}, sort=[("_id", -1)])
     if last_entry:
         positions = last_entry["positions"]
         print(f"Gespeicherte Positionen für {username} geladen!")
@@ -38,14 +63,15 @@ def load_positions(username):
 
 
 def on_click(x, y, button, pressed):
-    """Speichert Position beim Linksklick und beendet beim Rechtsklick."""
+    """Speichert Position und Auflösung beim Linksklick und beendet beim Rechtsklick."""
     if pressed:
         if keyboard.is_pressed("esc"):
             print("Skript gestoppt.")
             exit()
         if str(button) == "Button.left":
-            positions.append((x, y))
-            print(f"Position gespeichert: {x}, {y}")
+            resolution = f"{pyautogui.size().width}x{pyautogui.size().height}"  # Aktuelle Bildschirmauflösung
+            positions.append({"x": x, "y": y, "resolution": resolution})
+            print(f"Position gespeichert: {x}, {y}, Auflösung: {resolution}")
         elif str(button) == "Button.right":
             print("Erfassung abgeschlossen!")
             return False  # Beendet den Listener
@@ -77,7 +103,7 @@ def start_clicking():
                 print("Skript gestoppt.")
                 exit()
 
-            pyautogui.moveTo(pos[0], pos[1])  # Sofortige Bewegung
+            pyautogui.moveTo(pos["x"], pos["y"])  # Sofortige Bewegung
             pyautogui.click()  # Klick
             print(f"Geklickt auf: {pos}")
 
@@ -86,7 +112,7 @@ def start_clicking():
 
 def show_user_positions():
     """Zeigt alle gespeicherten Benutzer und deren Positionen an."""
-    users = collection.distinct("username")  # Alle einzigartigen Benutzernamen abrufen
+    users = positions_collection.distinct("username")  # Alle einzigartigen Benutzernamen abrufen
     if not users:
         print("Es gibt keine gespeicherten Benutzer.")
         return None
@@ -147,7 +173,6 @@ if __name__ == "__main__":
             app.stop_operations()
         app.after(100, check_for_esc_key)  # Check every 100ms
 
-
     class MouseClickerApp(ctk.CTk):
         def __init__(self):
             super().__init__()
@@ -162,6 +187,7 @@ if __name__ == "__main__":
             self.clickThread = None
             self.recording = False
             self.users_data = []
+            self.login_successful = False
 
             # Create main frame with two columns
             self.grid_columnconfigure(0, weight=1)
@@ -176,11 +202,42 @@ if __name__ == "__main__":
             self.main_frame = ctk.CTkFrame(self)
             self.main_frame.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
 
-            self.create_sidebar()
-            self.create_main_frame()
+            self.create_login_ui()
 
             # Bind ESC key to stop operations
             self.bind("<Escape>", self.stop_operations)
+
+        def create_login_ui(self):
+            # Login Frame
+            self.login_frame = ctk.CTkFrame(self)
+            self.login_frame.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
+
+            # Configure grid layout for login_frame
+            self.login_frame.grid_columnconfigure(0, weight=1)
+            self.login_frame.grid_rowconfigure(0, weight=0)
+            self.login_frame.grid_rowconfigure(1, weight=0)
+            self.login_frame.grid_rowconfigure(2, weight=0)
+            self.login_frame.grid_rowconfigure(3, weight=0)
+
+            # Username
+            username_label = ctk.CTkLabel(self.login_frame, text="Username:")
+            username_label.grid(row=0, column=0, pady=(10, 0), padx=10, sticky="ew")
+            self.username_entry = ctk.CTkEntry(self.login_frame)
+            self.username_entry.grid(row=1, column=0, pady=(0, 10), padx=10, sticky="ew")
+
+            # Password
+            password_label = ctk.CTkLabel(self.login_frame, text="Password:")
+            password_label.grid(row=2, column=0, pady=(10, 0), padx=10, sticky="ew")
+            self.password_entry = ctk.CTkEntry(self.login_frame, show="*")
+            self.password_entry.grid(row=3, column=0, pady=(0, 10), padx=10, sticky="ew")
+
+            # Login Button
+            login_button = ctk.CTkButton(self.login_frame, text="Login", command=self.login)
+            login_button.grid(row=4, column=0, pady=10, padx=10, sticky="ew")
+
+            # Register Button
+            register_button = ctk.CTkButton(self.login_frame, text="Register", command=self.register)
+            register_button.grid(row=5, column=0, pady=10, padx=10, sticky="ew")
 
         def create_sidebar(self):
             # App title
@@ -268,17 +325,19 @@ if __name__ == "__main__":
             # Table for positions
             self.positions_tree = ttk.Treeview(
                 positions_frame,
-                columns=("Index", "X", "Y"),
+                columns=("Index", "X", "Y", "Resolution"),
                 show="headings"
             )
 
             self.positions_tree.heading("Index", text="#")
             self.positions_tree.heading("X", text="X Position")
             self.positions_tree.heading("Y", text="Y Position")
+            self.positions_tree.heading("Resolution", text="Resolution")
 
             self.positions_tree.column("Index", width=50)
             self.positions_tree.column("X", width=100)
             self.positions_tree.column("Y", width=100)
+            self.positions_tree.column("Resolution", width=150)
 
             scrollbar = ttk.Scrollbar(positions_frame, orient=tk.VERTICAL, command=self.positions_tree.yview)
             self.positions_tree.configure(yscrollcommand=scrollbar.set)
@@ -293,7 +352,39 @@ if __name__ == "__main__":
 
             # Add positions to the tree view
             for i, pos in enumerate(positions):
-                self.positions_tree.insert("", "end", values=(i + 1, pos[0], pos[1]))
+                self.positions_tree.insert("", "end", values=(i + 1, pos["x"], pos["y"], pos["resolution"]))
+
+        def register(self):
+            username = self.username_entry.get()
+            password = self.password_entry.get()
+
+            if not username or not password:
+                messagebox.showerror("Error", "Bitte Benutzernamen und Passwort eingeben.")
+                return
+
+            success, message = create_user(username, password)
+            if success:
+                messagebox.showinfo("Erfolg", message)
+            else:
+                messagebox.showerror("Fehler", message)
+
+        def login(self):
+            username = self.username_entry.get()
+            password = self.password_entry.get()
+
+            if not username or not password:
+                messagebox.showerror("Error", "Bitte Benutzernamen und Passwort eingeben.")
+                return
+
+            if verify_password(username, password):
+                messagebox.showinfo("Erfolg", "Login erfolgreich.")
+                self.login_successful = True
+                self.username.set(username)
+                self.login_frame.destroy()  # Login-Fenster entfernen
+                self.create_sidebar()  # Sidebar erstellen
+                self.create_main_frame()  # Hauptbereich erstellen
+            else:
+                messagebox.showerror("Fehler", "Ungültiger Benutzername oder Passwort.")
 
         def start_recording(self):
             global positions
@@ -335,7 +426,7 @@ if __name__ == "__main__":
             self.start_btn.configure(state="normal")
 
         def show_users(self):
-            users = collection.distinct("username")
+            users = positions_collection.distinct("username")
 
             if not users:
                 messagebox.showinfo("Info", "No saved positions found.")
@@ -416,33 +507,23 @@ if __name__ == "__main__":
                         if not hasattr(self, 'clickThread') or not self.clickThread:
                             break
 
-                        pyautogui.moveTo(pos[0], pos[1])
+                        pyautogui.moveTo(pos["x"], pos["y"])
                         pyautogui.click()
                         time.sleep(0.5)
             except Exception as e:
                 print(f"Error in clicking thread: {e}")
 
-        def stop_operations(self, *args):  # *args to handle event calls
-            if self.recording:
-                # Force stop recording
-                for listener in Listener._running:
-                    listener.stop()
-                self.recording = False
-                self.record_btn.configure(state="normal")
-                self.update_status("Operations stopped")
-
-            # Stop clicking thread if it exists
-            if hasattr(self, 'clickThread') and self.clickThread:
+        def stop_operations(self, event=None):
+            if self.clickThread:
                 self.clickThread = None
-                self.start_btn.configure(state="normal")
-                self.update_status("Operations stopped")
+
+            self.update_status("Stopped")
+            self.start_btn.configure(state="normal")
 
         def update_status(self, message):
             self.status_label.configure(text=message)
 
-
-    if __name__ == "__main__":
-        app = MouseClickerApp()
-        # Start the ESC key checking loop
-        app.after(100, check_for_esc_key)
-        app.mainloop()
+    # Create main application window
+    app = MouseClickerApp()
+    app.after(100, check_for_esc_key)  # Start ESC key checker
+    app.mainloop()
