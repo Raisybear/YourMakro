@@ -1,52 +1,47 @@
-# YourMakro
+# YourMakro Pro
 
-YourMakro ist ein leistungsstarkes Tool zur automatisierten Maussteuerung mit Cloud-Speicherung. Es kombiniert eine moderne Benutzeroberfläche mit effizienter Steuerung für wiederholbare Klickabläufe.
+![Release Status](https://img.shields.io/badge/Status-Release%20in%20Progress-ff69b4)
+![Python Version](https://img.shields.io/badge/Python-3.10+-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
----
+**Professional mouse automation with cloud sync capabilities**
 
-## Installation
-**Voraussetzungen:**
-- Python 3.x
-- Abhängigkeiten installieren:
-  ```sh
-  pip install pyautogui keyboard pymongo pynput customtkinter
-  ```
+## ✨ Core Features
 
----
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
 
-## Nutzung
-1. **Starten:**
-   ```sh
-   python yourmakro.py
-   ```
-2. **Klickpositionen aufzeichnen oder laden**
-3. **Automatische Klicks ausführen**
-4. **Mit ESC stoppen**
+<div style="background: #1a1a1a; padding: 1.2rem; border-radius: 8px; border-left: 3px solid #6366f1;">
+<h3>🔄 Cloud Sync</h3>
+<p>Save and access your click patterns from any device via MongoDB Atlas</p>
+</div>
 
----
+<div style="background: #1a1a1a; padding: 1.2rem; border-radius: 8px; border-left: 3px solid #10b981;">
+<h3>🎨 Modern UI</h3>
+<p>CustomTkinter-powered interface with dark/light themes</p>
+</div>
 
-## Technologien
-✔ **Python** – Hauptsprache für Automatisierung  
-✔ **MongoDB Atlas** – Cloud-Datenbank zur Speicherung  
-✔ **CustomTkinter** – Stilvolle, moderne Benutzeroberfläche  
-✔ **PyAutoGUI & Pynput** – Maussteuerung und Eingaben  
+<div style="background: #1a1a1a; padding: 1.2rem; border-radius: 8px; border-left: 3px solid #f59e0b;">
+<h3>⏱️ Precision Control</h3>
+<p>Adjustable timing parameters for perfect automation</p>
+</div>
 
----
+</div>
 
-## Benutzeroberfläche
-Ein modernes, übersichtliches Design bietet eine intuitive Steuerung. 
-- **Live-Positionsanzeige**
-- **Benutzerverwaltung für gespeicherte Klickmuster**
-- **Nahtlose Integration mit der Cloud**
+## 📜 License
 
----
+MIT License
 
-## Lizenz
-YourMakro steht unter der **MIT-Lizenz** und ist frei nutzbar.
+Copyright (c) 2025 Elias Spycher
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions...
+
+[For full license text, see [LICENSE](LICENSE) file]
 
 ---
 
-## Autor
-**Elias Spycher**  
-Für Anfragen oder Verbesserungen gerne melden!
-
+Made with ❤️ by Elias Spycher
