@@ -31,7 +31,7 @@
 
 MIT License
 
-Copyright (c) 2023 Elias Spycher
+Copyright (c) 2025 Elias Spycher
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,11 +42,6 @@ furnished to do so, subject to the following conditions...
 
 [For full license text, see [LICENSE](LICENSE) file]
 
-## 📬 Contact
+---
 
-**Elias Spycher** - Creator & Maintainer
-
-- 🔗 [GitHub Profile](https://github.com/yourusername)
-- ✉️ [Email Contact](mailto:your.email@example.com)
-- 💼 [LinkedIn Profile](https://linkedin.com/in/yourprofile)
-- 🐦 [Twitter Handle](https://twitter.com/yourhandle)
+Made with ❤️ by Elias Spycher
