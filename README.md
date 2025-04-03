@@ -1,52 +1,38 @@
-# YourMakro
+# YourMakro Pro
 
-YourMakro ist ein leistungsstarkes Tool zur automatisierten Maussteuerung mit Cloud-Speicherung. Es kombiniert eine moderne Benutzeroberfläche mit effizienter Steuerung für wiederholbare Klickabläufe.
+![Release Badge](https://img.shields.io/badge/Status-Release%20in%20Progress-important)
+![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue)
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
 
----
+**Enterprise-grade mouse automation with cloud synchronization**
 
-## Installation
-**Voraussetzungen:**
-- Python 3.x
-- Abhängigkeiten installieren:
-  ```sh
-  pip install pyautogui keyboard pymongo pynput customtkinter
-  ```
+## ✨ Key Features
 
----
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
 
-## Nutzung
-1. **Starten:**
-   ```sh
-   python yourmakro.py
-   ```
-2. **Klickpositionen aufzeichnen oder laden**
-3. **Automatische Klicks ausführen**
-4. **Mit ESC stoppen**
+<div style="background: #1e1e1e; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #4f46e5;">
+<h3>☁️ Cloud Synchronization</h3>
+<p>Real-time sync with MongoDB Atlas across all your devices</p>
+</div>
 
----
+<div style="background: #1e1e1e; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #10b981;">
+<h3>🤖 Smart Automation</h3>
+<p>Advanced pattern recognition and loop detection</p>
+</div>
 
-## Technologien
-✔ **Python** – Hauptsprache für Automatisierung  
-✔ **MongoDB Atlas** – Cloud-Datenbank zur Speicherung  
-✔ **CustomTkinter** – Stilvolle, moderne Benutzeroberfläche  
-✔ **PyAutoGUI & Pynput** – Maussteuerung und Eingaben  
+<div style="background: #1e1e1e; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #f59e0b;">
+<h3>🔐 Secure Auth</h3>
+<p>SHA-256 encrypted credentials with user sessions</p>
+</div>
 
----
+</div>
 
-## Benutzeroberfläche
-Ein modernes, übersichtliches Design bietet eine intuitive Steuerung. 
-- **Live-Positionsanzeige**
-- **Benutzerverwaltung für gespeicherte Klickmuster**
-- **Nahtlose Integration mit der Cloud**
+## 🛠 Technical Architecture
 
----
-
-## Lizenz
-YourMakro steht unter der **MIT-Lizenz** und ist frei nutzbar.
-
----
-
-## Autor
-**Elias Spycher**  
-Für Anfragen oder Verbesserungen gerne melden!
-
+```mermaid
+graph TD
+    A[Modern UI] --> B[Automation Engine]
+    B --> C{MongoDB Atlas}
+    C --> D[Cloud Storage]
+    B --> E[Input Controller]
+    E --> F[PyAutoGUI/Pynput]
