@@ -11,9 +11,12 @@ import hashlib
 from datetime import datetime
 from PIL import Image, ImageTk, ImageDraw
 import math
+from dotenv import load_dotenv
+import os
 
 # Verbindung zu MongoDB Atlas
-MONGO_URI = "mongodb+srv://spycherelias7:ms23fzCUupdwjTeB@mousepositions.jugnj14.mongodb.net/?retryWrites=true&w=majority&appName=mousePositions"
+load_dotenv()  # This loads the .env file
+MONGO_URI = os.getenv("MONGO_URI")
 client = MongoClient(MONGO_URI)
 db = client["mouse_clicker"]
 positions_collection = db["mousePositions"]
