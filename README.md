@@ -12,7 +12,7 @@
 
 <div style="background: #1a1a1a; padding: 1.2rem; border-radius: 8px; border-left: 3px solid #6366f1;">
 <h3>🔄 Cloud Sync</h3>
-<p>Save and access your click patterns from any device via MongoDB Atlas</p>
+<p>Save and access your click patterns from any device via MongoDB Atlas, use other users pattern and edit them freely, there is no limit!</p>
 </div>
 
 <div style="background: #1a1a1a; padding: 1.2rem; border-radius: 8px; border-left: 3px solid #10b981;">
