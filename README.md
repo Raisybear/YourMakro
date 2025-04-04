@@ -1,4 +1,4 @@
-# YourMakro Pro
+# YourMakro
 
 ![Release Status](https://img.shields.io/badge/Status-Release%20in%20Progress-ff69b4)
 ![Python Version](https://img.shields.io/badge/Python-3.10+-blue)
