@@ -4,7 +4,7 @@
 ![Python Version](https://img.shields.io/badge/Python-3.10+-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-**Professional mouse automation with cloud sync capabilities**
+**mouse automation program with cloud sync capabilities**
 
 ## ✨ Core Features
 
