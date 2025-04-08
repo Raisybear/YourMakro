@@ -58,8 +58,12 @@ def create_user(username, password, email=None):
     if email and not is_valid_email(email):
         return False, "Invalid email format"
 
-    # Check if user exists
-    if users_collection.find_one({"$or": [{"username": username}, {"email": email}]}):
+    # Check if user exists - modified query to handle empty email
+    query = {"username": username}
+    if email:
+        query = {"$or": [{"username": username}, {"email": email}]}
+
+    if users_collection.find_one(query):
         return False, "Username or email already exists"
 
     # Create user
@@ -413,7 +417,7 @@ class MouseClickerApp(ctk.CTk):
     def register(self):
         """Handle user registration."""
         username = self.reg_username_entry.get()
-        email = self.reg_email_entry.get() or None
+        email = self.reg_email_entry.get().strip() or None  # Ensure empty string becomes None
         password = self.reg_password_entry.get()
         confirm = self.reg_confirm_entry.get()
 
@@ -435,6 +439,7 @@ class MouseClickerApp(ctk.CTk):
             self.reg_error_label.configure(text=message, text_color="green")
             self.register_dialog.after(1500, self.register_dialog.destroy)
         else:
+            # Specific error messages are now shown
             self.reg_error_label.configure(text=message, text_color="red")
 
     def login(self):
